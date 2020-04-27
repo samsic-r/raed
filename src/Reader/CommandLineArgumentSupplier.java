@@ -38,10 +38,8 @@ public class CommandLineArgumentSupplier implements ArgumentSupplier {
 
     public String checkAndGetDirectoryForScan(String directory) throws ArgumentsException {
         File file = new File( directory );
-        if (!file.exists()) throw new ArgumentsException( "Директория для сканирования не найдена!!!\n" +
-                "Выберите диск для сканирования из предложенных выше или введите путь до требуемой директории, например (D:/Название папки)" );
-        else return directory;
-    }
+        if (!file.exists()) throw new ArgumentsException( "Директория для сканирования не найдена!!!\n" );
+        else return directory;}
 
     public String checkAndGetReportPath(String reportPath) throws ArgumentsException {
         File file = new File( reportPath );

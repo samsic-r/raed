@@ -9,14 +9,17 @@ public class ScanApplication {
 
     public static void main(String[] args) throws ArgumentsException, IOException {
 
-        String[] arg = new String[]{"d:\\ff 2", "d:/java", "12.txt" , ""};  /* для проверки не из консоли
+        String[] arg = new String[]{"d:\\ff 2", "d:/java", "12.txt", "exe"};  /* для проверки не из консоли
          (где искать, куда сохранить отчет, Имя отчета, фильтр расширения) */
-
-        ArgumentSupplier argumentSupplier = new CommandLineArgumentSupplier( arg );
-        Arguments arguments = argumentSupplier.processArguments();
-        Collection<ScanWriter> writers = List.of( new FileDescriptionWriter( arguments.GetReportPath(), arguments.GetReportFileName() ),
-                new ConsoleDescriptionWriter() );
-        FileScanner scanner = new FileScanner( arguments, writers );
-        scanner.execute();
+        try {
+            ArgumentSupplier argumentSupplier = new CommandLineArgumentSupplier( arg );
+            Arguments arguments = argumentSupplier.processArguments();
+            Collection<ScanWriter> writers = List.of( new FileDescriptionWriter( arguments.GetReportPath(), arguments.GetReportFileName() ),
+                    new ConsoleDescriptionWriter() );
+            FileScanner scanner = new FileScanner( arguments, writers );
+            scanner.execute();
+        } catch (ArgumentsException a) {
+            System.out.println( a.getText() );
+        }
     }
 }
