@@ -15,9 +15,9 @@ public class FileDescriptionWriter extends ScanWriter {
 
 
     @Override
-    public void write(String dirbool, File file, Long size) throws IOException {
-        PrintWriter pw = new PrintWriter( new FileWriter( reportFilePath +"/"+ reportFileName, true ) );
-               pw.println( dirbool + "  " + file.getName() + " Размер " + size );
+    public void write(String dirbool, String filename, String size) throws IOException {
+        PrintWriter pw = new PrintWriter( new FileWriter( reportFilePath + "/" + reportFileName, true ) );
+        pw.println( dirbool + "  " + filename + " Размер " + size );
         pw.close();
     }
 }

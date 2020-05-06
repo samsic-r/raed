@@ -13,19 +13,19 @@ public class Arguments {
         this.extenstionFilter = extenstionFilter;
     }
 
-    public String GetDirectoryForScan() {
+    public String getDirectoryForScan() {
         return directoryForScan;
     }
 
-    public String GetReportPath() {
+    public String getReportPath() {
         return reportPath;
     }
 
-    public String GetReportFileName() {
+    public String getReportFileName() {
         return reportFileName;
     }
 
-    public String GetExtenstionFilter() {
+    public String getExtenstionFilter() {
         return extenstionFilter;
     }
 

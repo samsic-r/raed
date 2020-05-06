@@ -7,14 +7,14 @@ import java.util.List;
 
 public class ScanApplication {
 
-    public static void main(String[] args) throws ArgumentsException, IOException {
+    public static void main(String[] args) throws IOException {
 
-        String[] arg = new String[]{"d:\\ff 2", "d:/java", "12.txt", "exe"};  /* для проверки не из консоли
+        String[] arg = new String[]{"d:/ff 2", "d:/java", "TestAllDiskC.txt"};  /* для проверки не из консоли
          (где искать, куда сохранить отчет, Имя отчета, фильтр расширения) */
         try {
             ArgumentSupplier argumentSupplier = new CommandLineArgumentSupplier( arg );
             Arguments arguments = argumentSupplier.processArguments();
-            Collection<ScanWriter> writers = List.of( new FileDescriptionWriter( arguments.GetReportPath(), arguments.GetReportFileName() ),
+            Collection<ScanWriter> writers = List.of( new FileDescriptionWriter( arguments.getReportPath(), arguments.getReportFileName() ),
                     new ConsoleDescriptionWriter() );
             FileScanner scanner = new FileScanner( arguments, writers );
             scanner.execute();

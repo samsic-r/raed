@@ -12,34 +12,30 @@ public class CommandLineArgumentSupplier implements ArgumentSupplier {
 
 
     @Override
+
     public Arguments processArguments() throws ArgumentsException {
+        checkArgumentsSize();
+        String directoryForScan = checkAndGetDirectoryForScan( argumentsArray[0] );
+        String reportPath = checkAndGetReportPath( argumentsArray[1] );
+        String reportFileName = checkAndGetReportFileName( argumentsArray[2] );
+        String extensionFilter = argumentsArray.length == 4 ? argumentsArray[3] : "";
+        return new Arguments( directoryForScan, reportPath, reportFileName, extensionFilter );
+    }
 
-        if (argumentsArray != null && argumentsArray.length == 3) {
-            String directoryForScan = checkAndGetDirectoryForScan( argumentsArray[0] );
-            String reportPath = checkAndGetReportPath( argumentsArray[1] );
-            String reportFileName = checkAndGetReportFileName( argumentsArray[2] );
-            String extenstionFilter = "";
-            System.out.println( "Не введен аргумент для поиска файлов с заданным расширением\nСписок всех папок и файлов в каталоге:" );
-            return new Arguments( directoryForScan, reportPath, reportFileName, extenstionFilter );
-
-        } else if (argumentsArray != null && argumentsArray.length == 4) {
-            String directoryForScan = checkAndGetDirectoryForScan( argumentsArray[0] );
-            String reportPath = checkAndGetReportPath( argumentsArray[1] );
-            String reportFileName = checkAndGetReportFileName( argumentsArray[2] );
-            String extenstionFilter = argumentsArray[3];
-            System.out.println( "Список файлов c расширением (" + argumentsArray[3] + ")" );
-            return new Arguments( directoryForScan, reportPath, reportFileName, extenstionFilter );
-
-        } else if (argumentsArray != null && argumentsArray.length >= 5) {
+    public void checkArgumentsSize() throws ArgumentsException {
+        if (argumentsArray == null || argumentsArray.length < 3) {
+            throw new ArgumentsException( "Неверное число введенных аргументов. Минимальное число аргументов (3)" );
+        } else if (argumentsArray.length > 4) {
             throw new ArgumentsException( "Превышено число введенных аргументов. Максимальное число аргументов (4)" );
         }
-        throw new ArgumentsException( "Неверное число введенных аргументов. Минимальное число аргументов (3)" );
     }
+
 
     public String checkAndGetDirectoryForScan(String directory) throws ArgumentsException {
         File file = new File( directory );
         if (!file.exists()) throw new ArgumentsException( "Директория для сканирования не найдена!!!\n" );
-        else return directory;}
+        else return directory;
+    }
 
     public String checkAndGetReportPath(String reportPath) throws ArgumentsException {
         File file = new File( reportPath );
@@ -55,7 +51,7 @@ public class CommandLineArgumentSupplier implements ArgumentSupplier {
             if (reportFileName.indexOf( c ) != -1)
                 throw new ArgumentsException( "Введено недопустимое имя файла.\n" +
                         "Имя файла не должно содержать символов (\\, /, |, :, *, ?, '', <, >)" );
-            else continue;
+
         }
         return reportFileName;
     }

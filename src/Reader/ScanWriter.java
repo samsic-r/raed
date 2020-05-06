@@ -6,5 +6,5 @@ import java.io.IOException;
 
 public abstract class ScanWriter {
 
-    public abstract void write(String d, File f, Long s) throws IOException;
+    public abstract void write(String d, String n, String s) throws IOException;
 }

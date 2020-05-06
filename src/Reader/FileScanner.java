@@ -1,8 +1,6 @@
 package Reader;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.*;
 
@@ -17,42 +15,46 @@ public class FileScanner {
     }
 
     public void execute() throws IOException {
-        File files = new File( arguments.GetDirectoryForScan() );
-        ext( files );
+        File folder = new File( arguments.getDirectoryForScan() );
+        scanDirectoryRecursive( folder );
     }
-    // изерение размера папки со всеми вложениями
-    public long getFolderSize(File filelsit) {
-        long length = 0;
-        for (File file : filelsit.listFiles()) {
-            if (file.isFile())
-                length += file.length();
-            else
-                length += getFolderSize( file );
+
+    public long getFolderSize(File filelsit) throws NullPointerException {
+
+            long length = 0;
+            try {
+            for (File file : filelsit.listFiles()) {
+                if (file.isFile())
+                    length += file.length();
+                else
+                    length += getFolderSize( file );
+            }
+            return length;
+        } catch (NullPointerException e) {
+            e.printStackTrace();
         }
         return length;
-
     }
-    //метод поиска по расширению
-    private void ext(File filelsit) throws IOException {
 
-        for (File file : filelsit.listFiles()) {
+    private void scanDirectoryRecursive(File folder) throws IOException {
+        for (File file : folder.listFiles()) {
             if (file.isDirectory() && file.listFiles() == null) {
-                for (ScanWriter scan : writers) {
-                    scan.write( "Директория", file, file.length() );
-                }
-            } else if (file.isFile() && file.getName().endsWith( arguments.GetExtenstionFilter() )) {
-                for (ScanWriter scan : writers) {
-                    scan.write( "Файл", file, file.length() );
-                }
-            } else if (file.isDirectory() && arguments.GetExtenstionFilter() == "") {
-
-                for (ScanWriter scan : writers) {
-                    scan.write( "Директория", file, getFolderSize( file ) );
-                }
-                ext( file );
+                outWriter( "Директория", file.getName(), "Размер не прочитать, системная папка" );
+            } else if (file.isFile() && file.getName().endsWith( arguments.getExtenstionFilter() )) {
+                outWriter( "Файл", file.getName(), String.valueOf( file.length() ) );
+            } else if (file.isDirectory() && arguments.getExtenstionFilter().equals( "" )) {
+                outWriter( "Директория", file.getName(), String.valueOf( getFolderSize( file ) ) );
+                scanDirectoryRecursive( file );
             } else if (file.isDirectory()) {
-                ext( file );
+                scanDirectoryRecursive( file );
             }
+        }
+    }
+
+    public void outWriter(String isdirectory, String name, String size) throws IOException {
+        for (ScanWriter writer : writers) {
+            writer.write( isdirectory, name, size );
+
         }
     }
 }
