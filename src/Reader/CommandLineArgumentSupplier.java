@@ -10,7 +10,6 @@ public class CommandLineArgumentSupplier implements ArgumentSupplier {
         this.argumentsArray = argumentsArray;
     }
 
-
     @Override
 
     public Arguments processArguments() throws ArgumentsException {
@@ -29,7 +28,6 @@ public class CommandLineArgumentSupplier implements ArgumentSupplier {
             throw new ArgumentsException( "Превышено число введенных аргументов. Максимальное число аргументов (4)" );
         }
     }
-
 
     public String checkAndGetDirectoryForScan(String directory) throws ArgumentsException {
         File file = new File( directory );

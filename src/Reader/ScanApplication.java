@@ -9,7 +9,7 @@ public class ScanApplication {
 
     public static void main(String[] args) throws IOException {
 
-        String[] arg = new String[]{"d:/ff 2", "d:/java", "TestAllDiskC.txt"};  /* для проверки не из консоли
+        String[] arg = new String[]{"c:/", "d:/java", "TestAllDiskC.txt"};  /* для проверки не из консоли
          (где искать, куда сохранить отчет, Имя отчета, фильтр расширения) */
         try {
             ArgumentSupplier argumentSupplier = new CommandLineArgumentSupplier( arg );

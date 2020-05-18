@@ -21,8 +21,8 @@ public class FileScanner {
 
     public long getFolderSize(File filelsit) throws NullPointerException {
 
-            long length = 0;
-            try {
+        long length = 0;
+        try {
             for (File file : filelsit.listFiles()) {
                 if (file.isFile())
                     length += file.length();
@@ -30,8 +30,8 @@ public class FileScanner {
                     length += getFolderSize( file );
             }
             return length;
-        } catch (NullPointerException e) {
-            e.printStackTrace();
+        } catch (NullPointerException ignored) {
+
         }
         return length;
     }
@@ -39,11 +39,11 @@ public class FileScanner {
     private void scanDirectoryRecursive(File folder) throws IOException {
         for (File file : folder.listFiles()) {
             if (file.isDirectory() && file.listFiles() == null) {
-                outWriter( "Директория", file.getName(), "Размер не прочитать, системная папка" );
+                outWriter( file, file.length() );
             } else if (file.isFile() && file.getName().endsWith( arguments.getExtenstionFilter() )) {
-                outWriter( "Файл", file.getName(), String.valueOf( file.length() ) );
+                outWriter( file, file.length() );
             } else if (file.isDirectory() && arguments.getExtenstionFilter().equals( "" )) {
-                outWriter( "Директория", file.getName(), String.valueOf( getFolderSize( file ) ) );
+                outWriter( file, getFolderSize( file ) );
                 scanDirectoryRecursive( file );
             } else if (file.isDirectory()) {
                 scanDirectoryRecursive( file );
@@ -51,9 +51,9 @@ public class FileScanner {
         }
     }
 
-    public void outWriter(String isdirectory, String name, String size) throws IOException {
+    public void outWriter(File name, Long size) throws IOException {
         for (ScanWriter writer : writers) {
-            writer.write( isdirectory, name, size );
+            writer.write( name, size );
 
         }
     }

@@ -15,9 +15,14 @@ public class FileDescriptionWriter extends ScanWriter {
 
 
     @Override
-    public void write(String dirbool, String filename, String size) throws IOException {
-        PrintWriter pw = new PrintWriter( new FileWriter( reportFilePath + "/" + reportFileName, true ) );
-        pw.println( dirbool + "  " + filename + " Размер " + size );
+    public void write(File file, Long size) throws IOException {
+        PrintWriter pw = new PrintWriter( new FileWriter( reportFileName, true ) );
+        if (file.isFile()) pw.println( super.getInfoFile( file, size ) );
+        else {
+            pw.println( "---------------------------" );
+            pw.println( super.getInfoDirectory( file, size ) );
+            pw.println( "---------------------------" );
+        }
         pw.close();
     }
 }
