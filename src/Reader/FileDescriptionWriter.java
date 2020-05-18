@@ -16,7 +16,7 @@ public class FileDescriptionWriter extends ScanWriter {
 
     @Override
     public void write(File file, Long size) throws IOException {
-        PrintWriter pw = new PrintWriter( new FileWriter( reportFileName, true ) );
+        PrintWriter pw = new PrintWriter( new FileWriter( reportFilePath+"/"+reportFileName, true ) );
         if (file.isFile()) pw.println( super.getInfoFile( file, size ) );
         else {
             pw.println( "---------------------------" );
